@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -14,59 +15,44 @@ import { Router } from '@angular/router';
 })
 export class Login {
 
-
   email: string = '';
 
   password: string = '';
 
   errorMessage: string = '';
 
-
-  // hard coded users
-  users = [
-    {
-      email: "admin2@gmail.com",
-      password: "123456"
-    },
-    {
-      email: "user2@gmail.com",
-      password: "password"
-    },
-    {
-      email: "admin@gmail.com",
-      password: "admin123"
-    }
-  ];
-
-
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private http: HttpClient
+  ) {
 
   }
 
-
-
-  login(){
-
-    const user = this.users.find(
-      u => 
-      u.email === this.email &&
-      u.password === this.password
-    );
-
-
-    if(user){
-
-      // login successful
-      this.router.navigate(['/profile']);
-
+  login() {
+ this.http.post<any>(
+    'http://localhost:3000/api/auth',
+    {
+      email: this.email,
+      password: this.password
     }
-    else{
+  ).subscribe(user => {
+if (user.valid) {
 
-      // login failed
-      this.errorMessage = "Invalid email or password";
+  localStorage.setItem(
+    'user',
+    JSON.stringify(user)
+  );
 
-    }
+  this.router.navigate(['/profile']);
 
+} else {
+
+  this.errorMessage = 'Invalid email or password';
+
+}
+    //console.log(user);
+
+  });
   }
 
 }
