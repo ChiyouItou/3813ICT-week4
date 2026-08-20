@@ -1,1 +1,57 @@
-<p>profile works!</p>
+<h2>My Profile</h2>
+
+<form>
+
+  <div>
+    <label>Username:</label>
+
+    <input
+      type="text"
+      [(ngModel)]="user.username"
+      name="username"
+    >
+  </div>
+
+  <br>
+
+  <div>
+    <label>Birthdate:</label>
+
+    <input
+      type="date"
+      [(ngModel)]="user.birthdate"
+      name="birthdate"
+    >
+  </div>
+
+  <br>
+
+  <div>
+    <label>Age:</label>
+
+    <input
+      type="number"
+      [(ngModel)]="user.age"
+      name="age"
+    >
+  </div>
+
+  <br>
+
+  <div>
+    <label>Email:</label>
+
+    <input
+      type="email"
+      [(ngModel)]="user.email"
+      name="email"
+    >
+  </div>
+
+  <br>
+
+  <button type="button" (click)="save()">
+    Save
+  </button>
+
+</form>
